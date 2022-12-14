@@ -10,8 +10,8 @@ import streamlit as st
 
 header = st.beta_container()
 dataset = st.beta_container()
-features = st.beta_container()
-model_training = st.beta_container()
+chart = st.beta_container()
+model = st.beta_container()
 
 
 with header: 
@@ -19,5 +19,19 @@ with header:
     st.text('In this project I will create an interaction with tables and charts.')
     
 
+with dataset:
+    st.header('This is the dataset we will input data inside.')
+    st.text('Here will be a table.')
+    
 
+with chart:
+    st.header('This is the chart for pediction based on the data.')
+    
+    
+with model:
+    st.header('This is a space for modeling.')
+    st.text('Here will be a demonstration of the fomula with the interpet and coefficients.')
+    
+    
+    
 
