@@ -8,10 +8,10 @@ Date: 12/14/2022
 import streamlit as st
 
 
-header = st.beta_container()
-dataset = st.beta_container()
-chart = st.beta_container()
-model = st.beta_container()
+header = st.container()
+dataset = st.container()
+chart = st.container()
+model = st.container()
 
 
 with header: 
