@@ -507,5 +507,20 @@ with header:
     new_df = grid_return['data']
 
 with chart:    
-    fig = px.line(new_df, x=new_df.index, y="HTSales", title='Testing line chart')
-    fig.show()
+    fig = st.write(px.line(new_df, x=new_df.index, y="HTSales", title='Testing line chart'))
+    # fig.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
