@@ -76,10 +76,12 @@ from catboost import CatBoostRegressor
 from lightgbm import LGBMRegressor
 
 import csv
-#from st_aggrid import  AgGrid 
-# from st_aggrid import GridOptionsBuilder
-# from st_aggrid import GridUpdateMode
-# from st_aggrid import DataReturnMode
+
+from st_aggrid import AgGrid
+from st_aggrid import GridOptionsBuilder
+from st_aggrid import GridUpdateMode
+from st_aggrid import DataReturnMode
+from st_aggrid import AgGridTheme
 
 import Created_Functions
 from Created_Functions import Created_Functions
@@ -350,92 +352,92 @@ fig = st.write(go.Figure(data=traces, layout=layout))
     
 #*****************************************************************************************************************
 
-# make a option tha users can choose using input or import the data
-import datetime
-from dateutil.relativedelta import relativedelta
+# # make a option tha users can choose using input or import the data
+# import datetime
+# from dateutil.relativedelta import relativedelta
 
-option = st.text_input("Please choose a new data insert method ('input' or 'import'): ")
-if option == 'input':
-    data_list = []
-    date_list = []
-    num_of_rows = int(input("Please enter how many rows of data you want: "))
-    for i in range(num_of_rows):
-        Gray_cement_dispatch_comercial = float(input("Row " + str(i+1) + " : Gray_cement_dispatch_comercial (450000-550000): "))
-        HTSales = float(input("Row " + str(i+1) + " : Housing Total Sales (10000-25000): "))
-        ISE = float(input("Row " + str(i+1) + " : ISE (90-120): "))
-        RADAR_Toiletslag_4 = float(input("Row " + str(i+1) + " : RADAR_Toilets lag_4 (eg. 123456789999): "))
-        holiday = float(input("Row " + str(i+1) + " : holiday days in the month (0-29): "))
-        Consumer_microcredit = float(input("Row " + str(i+1) + " : Consumer_microcredit (300000-800000): "))
-        items = [Gray_cement_dispatch_comercial, HTSales, ISE, RADAR_Toiletslag_4, holiday, Consumer_microcredit]
-        data_list.append(items)
+# option = st.text_input("Please choose a new data insert method ('input' or 'import'): ")
+# if option == 'input':
+#     data_list = []
+#     date_list = []
+#     num_of_rows = int(input("Please enter how many rows of data you want: "))
+#     for i in range(num_of_rows):
+#         Gray_cement_dispatch_comercial = float(input("Row " + str(i+1) + " : Gray_cement_dispatch_comercial (450000-550000): "))
+#         HTSales = float(input("Row " + str(i+1) + " : Housing Total Sales (10000-25000): "))
+#         ISE = float(input("Row " + str(i+1) + " : ISE (90-120): "))
+#         RADAR_Toiletslag_4 = float(input("Row " + str(i+1) + " : RADAR_Toilets lag_4 (eg. 123456789999): "))
+#         holiday = float(input("Row " + str(i+1) + " : holiday days in the month (0-29): "))
+#         Consumer_microcredit = float(input("Row " + str(i+1) + " : Consumer_microcredit (300000-800000): "))
+#         items = [Gray_cement_dispatch_comercial, HTSales, ISE, RADAR_Toiletslag_4, holiday, Consumer_microcredit]
+#         data_list.append(items)
 
-        start_date = "2022-01-01"
-        date = pd.to_datetime(start_date, format="%Y-%m-%d") + relativedelta(months=i)
-        date_list.append(date)
+#         start_date = "2022-01-01"
+#         date = pd.to_datetime(start_date, format="%Y-%m-%d") + relativedelta(months=i)
+#         date_list.append(date)
 
-    columns_name = ['Gray_cement_dispatch_comercial','HTSales', 'ISE', 'RADAR_Toiletslag_4','holiday', 'Consumer_microcredit']
-    data_df = pd.DataFrame(data=data_list, columns=columns_name, index=date_list)
-    data_df_copy = data_df.copy()
+#     columns_name = ['Gray_cement_dispatch_comercial','HTSales', 'ISE', 'RADAR_Toiletslag_4','holiday', 'Consumer_microcredit']
+#     data_df = pd.DataFrame(data=data_list, columns=columns_name, index=date_list)
+#     data_df_copy = data_df.copy()
     
-elif option == 'import':
-    date_list = []
-    data_df_csv = pd.read_csv('new_data.csv')
-    for i in range(data_df_csv.shape[0]):
-        start_date = "2022-01-01"
-        date = pd.to_datetime(start_date, format="%Y-%m-%d") + relativedelta(months=i)
-        date_list.append(date)
-        columns_name = ['Gray_cement_dispatch_comercial','HTSales', 'ISE', 'RADAR_Toiletslag_4','holiday', 'Consumer_microcredit']
-    data_df_csv.index = date_list
-    data_df_copy = data_df_csv.copy()
+# elif option == 'import':
+#     date_list = []
+#     data_df_csv = pd.read_csv('new_data.csv')
+#     for i in range(data_df_csv.shape[0]):
+#         start_date = "2022-01-01"
+#         date = pd.to_datetime(start_date, format="%Y-%m-%d") + relativedelta(months=i)
+#         date_list.append(date)
+#         columns_name = ['Gray_cement_dispatch_comercial','HTSales', 'ISE', 'RADAR_Toiletslag_4','holiday', 'Consumer_microcredit']
+#     data_df_csv.index = date_list
+#     data_df_copy = data_df_csv.copy()
 
-else: 
-    print("Please choose a legal option. ('input' or 'import')")
+# else: 
+#     print("Please choose a legal option. ('input' or 'import')")
     
-#st.write(data_df_copy)
+# #st.write(data_df_copy)
 
 
-st.header('Table with Predicted Values ')
+# st.header('Table with Predicted Values ')
 
 
-# standarded data + ridge regression
+# # standarded data + ridge regression
 
-corona_combined_var10['HTSales'] = corona_combined_var10['HTSales'].astype(float)
-corona_combined_var10['holiday'] = corona_combined_var10['holiday'].astype(float)
+# corona_combined_var10['HTSales'] = corona_combined_var10['HTSales'].astype(float)
+# corona_combined_var10['holiday'] = corona_combined_var10['holiday'].astype(float)
 
-X = corona_combined_var10.drop(['Quantity'], axis=1)
-y = corona_combined_var10['Quantity']
+# X = corona_combined_var10.drop(['Quantity'], axis=1)
+# y = corona_combined_var10['Quantity']
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=10)
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=10)
 
-St_X = Created_Functions.standardization(X_train)
+# St_X = Created_Functions.standardization(X_train)
 
-RidgeReg = Ridge(alpha=0.1)  #Default value for alpha = 1
-RidgeReg.fit(St_X, y_train)
+# RidgeReg = Ridge(alpha=0.1)  #Default value for alpha = 1
+# RidgeReg.fit(St_X, y_train)
 
-data_df_copy['Predict_quantity'] = RidgeReg.predict(Created_Functions.standardization(data_df_copy))
-#st.write(data_df_copy)
+# data_df_copy['Predict_quantity'] = RidgeReg.predict(Created_Functions.standardization(data_df_copy))
+# #st.write(data_df_copy)
 
-predict_dataset = corona_combined_var10.append(data_df_copy)
-st.write(predict_dataset)
+# predict_dataset = corona_combined_var10.append(data_df_copy)
+# st.write(predict_dataset)
     
 
     
 #********** Line Chart with prediction*********************
 
-import plotly.graph_objs as go
+# import plotly.graph_objs as go
 
-traces = [go.Scatter(
-        x = predict_dataset.index,
-        y = predict_dataset[colname],
-        mode = 'markers+lines',
-        name = colname            
-        ) for colname in list(['Quantity', 'Predict_quantity'])]
+# traces = [go.Scatter(
+#         x = predict_dataset.index,
+#         y = predict_dataset[colname],
+#         mode = 'markers+lines',
+#         name = colname            
+#         ) for colname in list(['Quantity', 'Predict_quantity'])]
 
-layout = go.Layout(title='Prediction vs Actual<br><sup>Standarded data + RidgeRegression</sup>')
-fig = st.write(go.Figure(data=traces, layout=layout))
-#fig.add_vline(x='2021-12-30', line_width=3, line_dash="dash", line_color="grey")
+# layout = go.Layout(title='Prediction vs Actual<br><sup>Standarded data + RidgeRegression</sup>')
+# fig = st.write(go.Figure(data=traces, layout=layout))
+# #fig.add_vline(x='2021-12-30', line_width=3, line_dash="dash", line_color="grey")
 
-#fig.show()
+# #fig.show()
     
     
 
@@ -445,7 +447,56 @@ fig = st.write(go.Figure(data=traces, layout=layout))
     
 #with model:
     
+    
+# ----------------------------------------------------------------------------------
+from metrics.get_metrics import get_data
 
+from metrics.config import PATH_SAMPLES
+filename: str = 'new_data.csv'
+save_path = PATH_SAMPLES.joinpath(filename)
+
+
+def generate_agrid(data: pd.DataFrame):
+    gb = GridOptionsBuilder.from_dataframe(data)
+    gb.configure_default_column(editable=True)  # Make columns editable
+    gb.configure_pagination(paginationAutoPageSize=True)  # Add pagination
+    gb.configure_side_bar()  # Add a sidebar
+    gb.configure_selection('multiple', use_checkbox=True,
+                           groupSelectsChildren="Group checkbox select children")  # Enable multi-row selection
+    gridOptions = gb.build()
+
+    grid_response = AgGrid(
+        data,
+        gridOptions=gridOptions,
+        data_return_mode=DataReturnMode.AS_INPUT,
+        update_on='MANUAL',  # <- Should it let me update before returning?
+        fit_columns_on_grid_load=False,
+        theme=AgGridTheme.STREAMLIT,  # Add theme color to the table
+        enable_enterprise_modules=True,
+        height=350,
+        width='100%',
+        # reload_data=True
+    )
+
+    data = grid_response['data']
+    selected = grid_response['selected_rows']
+    df = pd.DataFrame(selected)  # Pass the selected rows to a new dataframe df
+    return grid_response
+
+def update(grid_table: classmethod, filename: str = 'new_data.csv'):
+    save_path = PATH_SAMPLES.joinpath(filename)
+    grid_table_df = pd.DataFrame(grid_table['data'])
+    grid_table_df.to_csv(save_path, index=False)
+
+# First data gather
+df = get_data() 
+
+if __name__ == '__main__':
+    # Start graphing
+    grid_table = generate_agrid(df)
+    
+    # Update
+    st.sidebar.button("Update", on_click=update, args=[grid_table])
     
     
 
