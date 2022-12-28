@@ -506,3 +506,6 @@ with header:
     grid_return = AgGrid(df, editable=True)
     new_df = grid_return['data']
 
+with chart:    
+    fig = px.line(new_df, x=new_df.index, y="HTSales", title='Testing line chart')
+    fig.show()
