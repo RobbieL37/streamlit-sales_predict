@@ -77,16 +77,17 @@ from lightgbm import LGBMRegressor
 
 import csv
 
-from st_aggrid import AgGrid
-from st_aggrid import GridOptionsBuilder
-from st_aggrid import GridUpdateMode
-from st_aggrid import DataReturnMode
-from st_aggrid import AgGridTheme
+from streamlit_aggrid import AgGrid
+from streamlit_aggrid import GridOptionsBuilder
+from streamlit_aggrid import GridUpdateMode
+from streamlit_aggrid import DataReturnMode
+from streamlit_aggrid import AgGridTheme
 
 import Created_Functions
 from Created_Functions import Created_Functions
 
 print('Packages importing successfully.')
+# ------------------------------------------------------------------------------------
 
 header = st.container()
 dataset = st.container()
